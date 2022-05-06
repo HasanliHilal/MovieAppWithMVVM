@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm_project.domain.usecase.GetMoviesUseCase
 import com.example.mvvm_project.domain.usecase.UpdateMoviesUseCase
 
-class MovieModelFactory(
+class MovieViewModelFactory(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val updateMoviesUseCase: UpdateMoviesUseCase
 ) : ViewModelProvider.Factory {

@@ -1,4 +1,4 @@
-package com.example.mvvm_project.presentation.di
+package com.example.mvvm_project.presentation.di.core
 
 import com.example.mvvm_project.data.api.TMDBService
 import com.example.mvvm_project.data.repository.artist.datasource.ArtistRemoteDataSource

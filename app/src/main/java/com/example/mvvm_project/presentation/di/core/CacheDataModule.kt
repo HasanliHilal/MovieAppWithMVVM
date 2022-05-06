@@ -1,4 +1,4 @@
-package com.example.mvvm_project.presentation.di
+package com.example.mvvm_project.presentation.di.core
 
 import com.example.mvvm_project.data.repository.artist.datasource.ArtistCacheDataSource
 import com.example.mvvm_project.data.repository.artist.datasourceImpl.ArtistCahceDataSourceImpl
