@@ -1,4 +1,4 @@
-package com.example.mvvm_project.data.repository.movie
+package com.example.mvvm_project.data.repository.movie.datasourceImpl
 
 import com.example.mvvm_project.data.model.movie.Movie
 import com.example.mvvm_project.data.repository.movie.datasource.MovieCacheDataSource

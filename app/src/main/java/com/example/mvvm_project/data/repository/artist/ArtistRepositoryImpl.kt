@@ -1,72 +1,72 @@
-package com.example.mvvm_project.data.repository.movie
+package com.example.mvvm_project.data.repository.artist
 
 import android.util.Log
-import com.example.mvvm_project.data.model.movie.Movie
-import com.example.mvvm_project.data.repository.movie.datasource.MovieCacheDataSource
-import com.example.mvvm_project.data.repository.movie.datasource.MovieLocalDataSource
-import com.example.mvvm_project.data.repository.movie.datasource.MovieRemoteDataSource
-import com.example.mvvm_project.domain.repository.MovieRepository
+import com.example.mvvm_project.data.model.artist.Artist
+import com.example.mvvm_project.data.repository.artist.datasource.ArtistCacheDataSource
+import com.example.mvvm_project.data.repository.artist.datasource.ArtistLocalDataSource
+import com.example.mvvm_project.data.repository.artist.datasource.ArtistRemoteDataSource
+import com.example.mvvm_project.domain.repository.ArtistRepository
 import java.lang.Exception
 
-class MovieRepositoryImpl(
-    private val movieRemoteDataSource: MovieRemoteDataSource,
-    private val movieLocalDataSource: MovieLocalDataSource,
-    private val movieCacheDataSource: MovieCacheDataSource
-) : MovieRepository {
-
-    override suspend fun getMovies(): List<Movie>? {
-        return  getMoviesFromCache()
+class ArtistRepositoryImpl(
+    private val artistRemoteDataSource: ArtistRemoteDataSource,
+    private val artistLocalDataSource: ArtistLocalDataSource,
+    private val artistCacheDataSource: ArtistCacheDataSource
+) : ArtistRepository {
+    override suspend fun getArtists(): List<Artist>? {
+        return  getArtistsFromCache()
     }
 
-    override suspend fun updateMovies(): List<Movie>? {
-        val newListOfMovies:List<Movie> = getMoviesFromAPI()
-        movieLocalDataSource.clearAll()
-        movieLocalDataSource.saveMoviesTODB(newListOfMovies)
-        movieCacheDataSource.saveMoviesToCache(newListOfMovies)
-        return  newListOfMovies
+    override suspend fun updateArtists(): List<Artist> {
+        val newListOfArtists:List<Artist> = getArtistsFromAPI()
+        artistLocalDataSource.clearAll()
+        artistLocalDataSource.saveArtistsTODB(newListOfArtists)
+        artistCacheDataSource.saveArtistsToCache(newListOfArtists)
+        return  newListOfArtists
     }
 
-    suspend fun getMoviesFromAPI(): List<Movie> {
-        lateinit var movieList: List<Movie>
+    suspend fun getArtistsFromAPI(): List<Artist> {
+        lateinit var artistList: List<Artist>
         try {
-            val response=movieRemoteDataSource.getMovies()
+            val response=artistRemoteDataSource.getArtists()
             val body=response.body()
             if(body!=null){
-                movieList=body.movies
+                artistList=body.artists
             }
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        return movieList
+        return artistList
     }
-    suspend fun  getMoviesFromDB():List<Movie>{
-        lateinit var movieList: List<Movie>
+    suspend fun  getArtistsFromDB():List<Artist>{
+        lateinit var artistList: List<Artist>
         try {
-            movieList=movieLocalDataSource.getMoviesFromDB()
+            artistList=artistLocalDataSource.getArtistsFromDB()
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        if(movieList.size>0){
-              return movieList
+        if(artistList.size>0){
+              return artistList
         }else{
-            movieList=getMoviesFromAPI()
-            movieLocalDataSource.saveMoviesTODB(movieList)
+            artistList=getArtistsFromAPI()
+            artistLocalDataSource.saveArtistsTODB(artistList)
         }
-        return movieList
+        return artistList
     }
-    suspend fun  getMoviesFromCache():List<Movie>{
-        lateinit var movieList: List<Movie>
+    suspend fun  getArtistsFromCache():List<Artist>{
+        lateinit var artistList: List<Artist>
         try {
-            movieList=movieCacheDataSource.getMoviesFromCache()
+            artistList=artistCacheDataSource.getArtistsFromCache()
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        if(movieList.size>0){
-            return movieList
+        if(artistList.size>0){
+            return artistList
         }else{
-            movieList=getMoviesFromCache()
-            movieCacheDataSource.saveMoviesToCache(movieList)
+            artistList=getArtistsFromDB()
+            artistCacheDataSource.saveArtistsToCache(artistList)
         }
-        return movieList
+        return artistList
     }
+
 }

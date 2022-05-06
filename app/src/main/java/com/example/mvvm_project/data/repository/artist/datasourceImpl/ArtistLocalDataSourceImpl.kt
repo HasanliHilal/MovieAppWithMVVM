@@ -1,10 +1,8 @@
-package com.example.mvvm_project.data.repository.artist
+package com.example.mvvm_project.data.repository.artist.datasourceImpl
 
 import com.example.mvvm_project.data.db.ArtistDao
-import com.example.mvvm_project.data.db.MovieDao
 import com.example.mvvm_project.data.model.artist.Artist
-import com.example.mvvm_project.data.model.movie.Movie
-import com.example.mvvm_project.data.repository.movie.datasource.MovieLocalDataSource
+import com.example.mvvm_project.data.repository.artist.datasource.ArtistLocalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

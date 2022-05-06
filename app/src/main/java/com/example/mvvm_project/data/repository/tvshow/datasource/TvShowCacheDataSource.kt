@@ -1,9 +1,10 @@
-package com.example.mvvm_project.data.repository.artist.datasource
+package com.example.mvvm_project.data.repository.tvshow.datasource
 
 import com.example.mvvm_project.data.model.artist.Artist
 import com.example.mvvm_project.data.model.movie.Movie
+import com.example.mvvm_project.data.model.tvshow.TvShow
 
-interface ArtistCacheDataSource {
-    suspend fun  getArtistsFromCache():List<Artist>
-    suspend fun  saveArtistsToCache(artists:List<Artist>)
+interface TvShowCacheDataSource {
+    suspend fun  getTvShowsFromCache():List<TvShow>
+    suspend fun  saveTvShowsToCache(tvShows:List<TvShow>)
 }

@@ -1,7 +1,10 @@
-package com.example.mvvm_project.data.repository
+package com.example.mvvm_project.data.repository.movie
 
 import android.util.Log
 import com.example.mvvm_project.data.model.movie.Movie
+import com.example.mvvm_project.data.repository.movie.datasource.MovieCacheDataSource
+import com.example.mvvm_project.data.repository.movie.datasource.MovieLocalDataSource
+import com.example.mvvm_project.data.repository.movie.datasource.MovieRemoteDataSource
 import com.example.mvvm_project.domain.repository.MovieRepository
 import java.lang.Exception
 
@@ -61,7 +64,7 @@ class MovieRepositoryImpl(
         if(movieList.size>0){
             return movieList
         }else{
-            movieList=getMoviesFromCache()
+            movieList=getMoviesFromDB()
             movieCacheDataSource.saveMoviesToCache(movieList)
         }
         return movieList

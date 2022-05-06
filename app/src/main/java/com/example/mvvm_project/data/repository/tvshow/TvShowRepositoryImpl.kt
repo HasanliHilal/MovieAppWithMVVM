@@ -1,72 +1,77 @@
-package com.example.mvvm_project.data.repository.artist
+package com.example.mvvm_project.data.repository.tvshow
 
 import android.util.Log
 import com.example.mvvm_project.data.model.artist.Artist
+import com.example.mvvm_project.data.model.tvshow.TvShow
 import com.example.mvvm_project.data.repository.artist.datasource.ArtistCacheDataSource
 import com.example.mvvm_project.data.repository.artist.datasource.ArtistLocalDataSource
 import com.example.mvvm_project.data.repository.artist.datasource.ArtistRemoteDataSource
+import com.example.mvvm_project.data.repository.tvshow.datasource.TvShowCacheDataSource
+import com.example.mvvm_project.data.repository.tvshow.datasource.TvShowLocalDataSource
+import com.example.mvvm_project.data.repository.tvshow.datasource.TvShowRemoteDataSource
 import com.example.mvvm_project.domain.repository.ArtistRepository
+import com.example.mvvm_project.domain.repository.TvShowRepository
 import java.lang.Exception
 
-class ArtistRepositoryImpl(
-    private val artistRemoteDataSource: ArtistRemoteDataSource,
-    private val artistLocalDataSource: ArtistLocalDataSource,
-    private val artistCacheDataSource: ArtistCacheDataSource
-) : ArtistRepository {
-    override suspend fun getArtists(): List<Artist>? {
-        return  getArtistsFromCache()
+class TvShowRepositoryImpl(
+    private val tvShowRemoteDataSource: TvShowRemoteDataSource,
+    private val tvShowLocalDataSource: TvShowLocalDataSource,
+    private val tvShowCacheDataSource: TvShowCacheDataSource
+) : TvShowRepository {
+    override suspend fun getTvShows(): List<TvShow>? {
+        return  getTvShowsFromCache()
     }
 
-    override suspend fun updateArtists(): List<Artist> {
-        val newListOfArtists:List<Artist> = getArtistsFromAPI()
-        artistLocalDataSource.clearAll()
-        artistLocalDataSource.saveArtistsTODB(newListOfArtists)
-        artistCacheDataSource.saveArtistsToCache(newListOfArtists)
-        return  newListOfArtists
+    override suspend fun updateTvShows(): List<TvShow> {
+        val newListOfTvShows:List<TvShow> = getTvShowsFromAPI()
+        tvShowLocalDataSource.clearAll()
+        tvShowLocalDataSource.saveTvShowsTODB(newListOfTvShows)
+        tvShowCacheDataSource.saveTvShowsToCache(newListOfTvShows)
+        return  newListOfTvShows
     }
 
-    suspend fun getArtistsFromAPI(): List<Artist> {
-        lateinit var artistList: List<Artist>
+    suspend fun getTvShowsFromAPI(): List<TvShow> {
+        lateinit var tvShowList: List<TvShow>
         try {
-            val response=artistRemoteDataSource.getArtists()
+            val response=tvShowRemoteDataSource.getTvShows()
             val body=response.body()
             if(body!=null){
-                artistList=body.artists
+                tvShowList=body.tvShows
             }
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        return artistList
+        return tvShowList
     }
-    suspend fun  getArtistsFromDB():List<Artist>{
-        lateinit var artistList: List<Artist>
+    suspend fun  getTvShowsFromDB():List<TvShow>{
+        lateinit var tvShowList: List<TvShow>
         try {
-            artistList=artistLocalDataSource.getArtistsFromDB()
+            tvShowList=tvShowLocalDataSource.getTvShowsFromDB()
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        if(artistList.size>0){
-              return artistList
+        if(tvShowList.size>0){
+              return tvShowList
         }else{
-            artistList=getArtistsFromAPI()
-            artistLocalDataSource.saveArtistsTODB(artistList)
+            tvShowList=getTvShowsFromAPI()
+            tvShowLocalDataSource.saveTvShowsTODB(tvShowList)
         }
-        return artistList
+        return tvShowList
     }
-    suspend fun  getArtistsFromCache():List<Artist>{
-        lateinit var artistList: List<Artist>
+    suspend fun  getTvShowsFromCache():List<TvShow>{
+        lateinit var tvShowList: List<TvShow>
         try {
-            artistList=artistCacheDataSource.getArtistsFromCache()
+            tvShowList=tvShowCacheDataSource.getTvShowsFromCache()
         } catch (exception:Exception) {
             Log.i("MyTag",exception.message.toString())
         }
-        if(artistList.size>0){
-            return artistList
+        if(tvShowList.size>0){
+            return tvShowList
         }else{
-            artistList=getArtistsFromDB()
-            artistCacheDataSource.saveArtistsToCache(artistList)
+            tvShowList=getTvShowsFromDB()
+            tvShowCacheDataSource.saveTvShowsToCache(tvShowList)
         }
-        return artistList
+        return tvShowList
     }
 
 }

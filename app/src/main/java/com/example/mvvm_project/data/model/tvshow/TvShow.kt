@@ -2,12 +2,13 @@ package com.example.mvvm_project.data.model.tvshow
 
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
 @Entity(tableName = "popular_tvshows")
 data class TvShow(
-
+    @PrimaryKey
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

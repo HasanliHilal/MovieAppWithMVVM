@@ -1,4 +1,4 @@
-package com.example.mvvm_project.data.repository.artist
+package com.example.mvvm_project.data.repository.artist.datasource
 
 import com.example.mvvm_project.data.model.artist.ArtisList
 import com.example.mvvm_project.data.model.movie.Movie
